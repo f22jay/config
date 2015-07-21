@@ -45,6 +45,13 @@ set fileencodings=utf-8,gbk,cp936,latin-1
 "/* 当新建 .h .c .hpp .cpp 等文件时自动调用SetTitle 函数*/
 autocmd BufNewFile *.[ch],*.hpp,*.cpp exec ":call SetTitle()" 
 
+autocmd BufNewFile *.sh exec ":call SetShell()" 
+
+func SetShell ()
+    call setline(1,"#!/bin/bash") 
+    call append(line("."),   "") 
+endfunc 
+
 "/* 加入注释 */
 func SetComment()
     call setline(1,"/***************************************************************************") 
@@ -151,8 +158,6 @@ nmap <silent> <C-q> <esc>:wq<cr>
 nmap <silent> <F5> :call CompileRunGcc() <cr> 
 nmap <silent> mm <esc>:WMToggle<cr> 
 "在进入vim时自动打开winmanager 
-let g:AutoOpenWinManager=1
-let g:winManagerWindowLayout='FileExplorer|TagList'
 nmap <silent>  mk :make <cr>
 nmap <silent>  ms :w <cr>
 nmap <silent>  mc :make clean <cr>
