@@ -862,7 +862,7 @@
                 if exists('g:spf13_noninvasive_completion')
                     inoremap <CR> <CR>
                     " <ESC> takes you out of insert mode
-                    inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
+                    "inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
                     " <CR> accepts first, then sends the <CR>
                     inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
                     " <Down> and <Up> cycle like <Tab> and <S-Tab>
@@ -871,6 +871,8 @@
                     " Jump up and down the list
                     inoremap <expr> <C-d>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
                     inoremap <expr> <C-u>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+                    " <C-h>, <BS>: close popup and delete backword char.
+                    inoremap <expr><Esc> neocomplcache#smart_close_popup()."\<C-h>"
                 else
                     imap <silent><expr><C-k> neosnippet#expandable() ?
                                 \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
@@ -895,15 +897,17 @@
                     endfunction
 
                     " <CR> close popup and save indent or expand snippet
-                    imap <expr> <CR> CleverCr()
+                    "imap <expr> <CR> CleverCr()
 
                     " <CR>: close popup
                     " <s-CR>: close popup and save indent.
                     inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()."\<CR>" : "\<CR>"
-                    "inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+                    "inoremap <expr><Esc>  pumvisible() ? neocomplcache#close_popup()  : "\<Esc>"
+                    inoremap <expr><Esc>  "\<Esc>"
+                    inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 
                     " <C-h>, <BS>: close popup and delete backword char.
-                    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+                    inoremap <expr><Esc> neocomplcache#smart_close_popup()."\<C-h>"
                     inoremap <expr><C-y> neocomplcache#close_popup()
                 endif
                 " <TAB>: completion.
@@ -1172,4 +1176,11 @@
     endif
 " }
 
-colorscheme molokai
+"colorscheme molokai
+"
+
+
+let g:ycm_global_ycm_extra_conf = '/home/users/zhangfangjie/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf/'
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>   "按,jd 会跳转到定义
+let g:ycm_confirm_extra_conf=0    "打开vim时不再询问是否加载ycm_extra_conf.py配置
+let g:ycm_collect_identifiers_from_tag_files = 1 "使用ctags生成的tags文件

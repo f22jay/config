@@ -19,8 +19,6 @@
 "   You can find me at http://spf13.com
 " }
 
-let g:ycm_server_use_vim_stdout = 1
-let g:ycm_server_log_level = 'debug'
 " spf13 options {
 
     " Prevent automatically changing to open file directory
@@ -65,7 +63,8 @@ let g:ycm_server_log_level = 'debug'
     " automatically complete, pressing <CR> inserts a newline, etc. Iff the
     " menu is open, tab will cycle through it. If a snippet is selected, <C-k>
     " expands it and jumps between fields.
-    "   let g:spf13_noninvasive_completion = 1
+    " 很重要，按Esc能退出补全，但已补全的不会删除
+       let g:spf13_noninvasive_completion = 1
 
     " Don't turn conceallevel or concealcursor
     "   let g:spf13_no_conceal = 1
