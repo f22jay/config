@@ -8,7 +8,6 @@
 "
 "
 
-syntax on
 set smarttab
 set tabstop=4
 set shiftwidth=4
@@ -873,26 +872,26 @@ map  ;nb      gg=G
 map  ;re      :call <SID>ReTab()<CR>
 imap ;re <ESC>:call <SID>ReTab()<CR>
 "function
-map  ;df      :call <SID>GenDoc()<CR>
-imap ;df <ESC>:call <SID>GenDoc()<CR>
+map  ;f      :call <SID>GenDoc()<CR>
+imap ;f <ESC>:call <SID>GenDoc()<CR>
 "variable
-map  ;dv      :call <SID>ValComment()<CR>
-imap ;dv <ESC>:call <SID>ValComment()<CR>
+map  ;v      :call <SID>ValComment()<CR>
+imap ;v <ESC>:call <SID>ValComment()<CR>
 "main page
-map  ;dm      :call <SID>GetDoxFH(0)<CR>
-imap ;dm <ESC>:call <SID>GetDoxFH(0)<CR>
+map  ;m      :call <SID>GetDoxFH(0)<CR>
+imap ;m <ESC>:call <SID>GetDoxFH(0)<CR>
 autocmd FileType c,cpp,java,sh,awk,vim,sed,perl nnoremap <silent> <Leader>a :call <SID>GetDoxFH(0)<CR>
 "start
-map  ;ds      :call <SID>GetDoxFH(1)<CR>
-imap ;ds <ESC>:call <SID>GetDoxFH(1)<CR>
+map  ;s      :call <SID>GetDoxFH(1)<CR>
+imap ;s <ESC>:call <SID>GetDoxFH(1)<CR>
 autocmd FileType c,cpp,java,sh,awk,vim,sed,perl nnoremap <silent> <Leader>s :call <SID>GetDoxFH(1)<CR>
 "description
 map  ;dd      mz:call <SID>GetDoxFH(2)<CR><Esc>'z
 imap ;dd <ESC>;dda
 autocmd FileType c,cpp,java,sh,awk,vim,sed,perl nnoremap <silent> <Leader>d :call <SID>GetDoxFH(2)<CR>
 "group
-map  ;dg      :call <SID>GetDoxFH(3)<CR>
-imap ;dg <ESC>:call <SID>GetDoxFH(3)<CR>
+map  ;g      :call <SID>GetDoxFH(3)<CR>
+imap ;g <ESC>:call <SID>GetDoxFH(3)<CR>
 autocmd FileType c,cpp,java,sh,awk,vim,sed,perl nnoremap <silent> <Leader>f :call <SID>GetDoxFH(3)<CR>
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType proto   let b:comment_leader = '# '

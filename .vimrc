@@ -57,13 +57,6 @@
           set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         endif
     " }
-    
-    " Arrow Key Fix {
-        " https://github.com/spf13/spf13-vim/issues/780
-        if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
-            inoremap <silent> <C-[>OC <RIGHT>
-        endif
-    " }
 
 " }
 
@@ -82,23 +75,10 @@
 " General {
 
     set background=dark         " Assume a dark background
-
-    " Allow to trigger background
-    function! ToggleBG()
-        let s:tbg = &background
-        " Inversion
-        if s:tbg == "dark"
-            set background=light
-        else
-            set background=dark
-        endif
-    endfunction
-    noremap <leader>bg :call ToggleBG()<CR>
-
     " if !has('gui')
         "set term=$TERM          " Make arrow and other keys work
     " endif
-    "filetype plugin indent on   " Automatically detect file types.
+    filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
     set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
@@ -229,7 +209,7 @@
     set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
-    "set foldenable                  " Auto fold code
+    set foldenable                  " Auto fold code
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 
@@ -382,16 +362,6 @@
     nmap <leader>f8 :set foldlevel=8<CR>
     nmap <leader>f9 :set foldlevel=9<CR>
 
-    "UPPERCASE and lowercase conversion
-    nnoremap g^ gUiW
-    nnoremap gv guiW
-
-    "go to first and last char of line
-    nnoremap H ^
-    nnoremap L g_
-    vnoremap H ^
-    vnoremap L g_
-
     " Most prefer to toggle search highlighting rather than clear the current
     " search results. To clear search highlighting rather than toggle it on
     " and off, add the following to your .vimrc.before.local file:
@@ -543,7 +513,7 @@
         let g:snips_author = 'Steve Francia <steve.francia@gmail.com>'
     " }
 
-     "NerdTree {
+    " NerdTree {
         if isdirectory(expand("~/.vim/bundle/nerdtree"))
             map <C-e> <plug>NERDTreeTabsToggle<CR>
             map <leader>e :NERDTreeFind<CR>
@@ -552,20 +522,20 @@
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
             let NERDTreeChDirMode=0
-            "let NERDTreeQuitOnOpen=1
+            let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
-            "let NERDTreeShowHidden=1
+            let NERDTreeShowHidden=1
             let NERDTreeKeepTreeInNewTab=1
             let g:nerdtree_tabs_open_on_gui_startup=0
         endif
-     "}
+    " }
 
     " Tabularize {
         if isdirectory(expand("~/.vim/bundle/tabular"))
             nmap <Leader>a& :Tabularize /&<CR>
             vmap <Leader>a& :Tabularize /&<CR>
-            nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-            vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+            nmap <Leader>a= :Tabularize /=<CR>
+            vmap <Leader>a= :Tabularize /=<CR>
             nmap <Leader>a=> :Tabularize /=><CR>
             vmap <Leader>a=> :Tabularize /=><CR>
             nmap <Leader>a: :Tabularize /:<CR>
@@ -630,9 +600,6 @@
             else
                 let s:ctrlp_fallback = 'find %s -type f'
             endif
-            if exists("g:ctrlp_user_command")
-                unlet g:ctrlp_user_command
-            endif
             let g:ctrlp_user_command = {
                 \ 'types': {
                     \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
@@ -654,6 +621,21 @@
     " TagBar {
         if isdirectory(expand("~/.vim/bundle/tagbar/"))
             nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
+            " If using go please install the gotags program using the following
+            " go install github.com/jstemmer/gotags
+            " And make sure gotags is in your path
+            let g:tagbar_type_go = {
+                \ 'ctagstype' : 'go',
+                \ 'kinds'     : [  'p:package', 'i:imports:1', 'c:constants', 'v:variables',
+                    \ 't:types',  'n:interfaces', 'w:fields', 'e:embedded', 'm:methods',
+                    \ 'r:constructor', 'f:functions' ],
+                \ 'sro' : '.',
+                \ 'kind2scope' : { 't' : 'ctype', 'n' : 'ntype' },
+                \ 'scope2kind' : { 'ctype' : 't', 'ntype' : 'n' },
+                \ 'ctagsbin'  : 'gotags',
+                \ 'ctagsargs' : '-sort -silent'
+                \ }
         endif
     "}
 
@@ -772,7 +754,7 @@
 
                     " <CR>: close popup
                     " <s-CR>: close popup and save indent.
-                    inoremap <expr><s-CR> pumvisible() ? neocomplete#smart_close_popup()."\<CR>" : "\<CR>"
+                    inoremap <expr><s-CR> pumvisible() ? neocomplete#smart_close_popup()"\<CR>" : "\<CR>"
 
                     function! CleverCr()
                         if pumvisible()
@@ -862,7 +844,7 @@
                 if exists('g:spf13_noninvasive_completion')
                     inoremap <CR> <CR>
                     " <ESC> takes you out of insert mode
-                    "inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
+                    inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
                     " <CR> accepts first, then sends the <CR>
                     inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
                     " <Down> and <Up> cycle like <Tab> and <S-Tab>
@@ -871,8 +853,6 @@
                     " Jump up and down the list
                     inoremap <expr> <C-d>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
                     inoremap <expr> <C-u>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
-                    " <C-h>, <BS>: close popup and delete backword char.
-                    inoremap <expr><Esc> neocomplcache#smart_close_popup()."\<C-h>"
                 else
                     imap <silent><expr><C-k> neosnippet#expandable() ?
                                 \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
@@ -897,17 +877,15 @@
                     endfunction
 
                     " <CR> close popup and save indent or expand snippet
-                    "imap <expr> <CR> CleverCr()
+                    imap <expr> <CR> CleverCr()
 
                     " <CR>: close popup
                     " <s-CR>: close popup and save indent.
-                    inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()."\<CR>" : "\<CR>"
-                    "inoremap <expr><Esc>  pumvisible() ? neocomplcache#close_popup()  : "\<Esc>"
-                    inoremap <expr><Esc>  "\<Esc>"
-                    inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+                    inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()"\<CR>" : "\<CR>"
+                    "inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 
                     " <C-h>, <BS>: close popup and delete backword char.
-                    inoremap <expr><Esc> neocomplcache#smart_close_popup()."\<C-h>"
+                    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
                     inoremap <expr><C-y> neocomplcache#close_popup()
                 endif
                 " <TAB>: completion.
@@ -1176,4 +1154,7 @@
     endif
 " }
 
-"colorscheme molokai
+let g:ycm_global_ycm_extra_conf = '/home/moon/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf/'
+nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>   "按,jd 会跳转到定义
+let g:ycm_confirm_extra_conf=0    "打开vim时不再询问是否加载ycm_extra_conf.py配置
+let g:ycm_collect_identifiers_from_tag_files = 1 "使用ctags生成的tags文件

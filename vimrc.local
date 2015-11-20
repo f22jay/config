@@ -112,4 +112,4 @@ endfunc
 "wincmd w 
 "autocmd VimEnter * wincmd w 
 
-inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup()  : "\<SPACE>"
+"inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup()  : "\<SPACE>"
