@@ -34,7 +34,7 @@ import ycm_core
 # These are the compilation flags that will be used in case there's no
 # compilation database set (by default, one is not set).
 # CHANGE THIS LIST OF FLAGS. YES, THIS IS THE DROID YOU HAVE BEEN LOOKING FOR.
-cur_path = os.path.abspath(__file__)
+cur_path = os.path.dirname(os.path.abspath(__file__))
 flags = [
 '-Wall',
 '-Wextra',
@@ -77,7 +77,8 @@ flags = [
 '-isystem',
 './sofa-pbrpc/src/sofa/pbrpc',
 '-isystem',
-cur_path + '/include',
+    cur_path + '/include',
+#'/home/moon/src/common/include/net',
 '-isystem',
 './tests/gmock/gtest',
 '-isystem',
